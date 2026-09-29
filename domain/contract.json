@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "product": "校园文化活动申诉",
+  "source_context": "http://edu.people.com.cn/n1/2026/0924/c1006-40804947.html",
+  "actors": [
+    "学生家长",
+    "学校复核人员",
+    "活动负责人"
+  ],
+  "states": [
+    "提出",
+    "受理",
+    "调查",
+    "复核",
+    "决定"
+  ],
+  "invariants": [
+    "案件关联",
+    "期限控制",
+    "法定签署",
+    "当事人隔离"
+  ],
+  "sample_cases": [
+    {
+      "case_id": "09302-018-A",
+      "actor": "学生家长",
+      "state": "提出"
+    },
+    {
+      "case_id": "09302-018-B",
+      "actor": "活动负责人",
+      "state": "受理"
+    }
+  ],
+  "tags": [
+    "activity-appeal",
+    "case-management"
+  ]
+}
