@@ -6,6 +6,7 @@ from pathlib import Path
 
 
 REQUIRED = {"schema_version", "product", "source_context", "actors", "states", "invariants", "sample_cases", "tags"}
+REQUIRED_POLICIES = {"acceptance_days", "reopen_days", "required_signatures"}
 
 
 def load_contract(path: str | Path) -> dict:
@@ -22,6 +23,18 @@ def load_contract(path: str | Path) -> dict:
     case_ids = [item.get("case_id") for item in value["sample_cases"]]
     if len(case_ids) != len(set(case_ids)):
         raise ValueError("样例编号不能重复")
+    policies = value.get("policies", {})
+    policy_missing = REQUIRED_POLICIES - policies.keys()
+    if policy_missing:
+        raise ValueError("策略字段缺少：" + "、".join(sorted(policy_missing)))
+    transitions = value.get("transitions", {})
+    if not transitions:
+        raise ValueError("transitions 必须声明状态推进规则")
+    for state in value["states"]:
+        if state in ("已撤回", "已合并"):
+            continue
+        if state not in transitions:
+            raise ValueError(f"状态 {state} 缺少推进规则")
     return value
 
 
